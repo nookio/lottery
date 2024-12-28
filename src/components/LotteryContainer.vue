@@ -354,7 +354,7 @@ const findAndMerge = (arr, input, current) => {
     if (!filteredInput || !filteredInput.length) return basicData.currentLuckys;
 
     const currentPrizeKey = basicData.currentPrize.type;
-    const currentDrawCount = prizeDrawCountObj[currentPrizeKey];
+    // const currentDrawCount = prizeDrawCountObj[currentPrizeKey];
     // 找到匹配的行 
     // 找到basicData.secretUsers数组中 匹配
     // const rows = arr.filter(row => filteredInput.includes(row[0]+"")); 
@@ -363,14 +363,19 @@ const findAndMerge = (arr, input, current) => {
       if (!filteredInput.includes(row[0]+"")) return false;
 
       // 从 secretUsers 中查找匹配的用户
-      const secretUser = basicData.secretUsers.find(user => user.option_identity ===(row[0]+""));
+      // const secretUser = basicData.secretUsers.find(user => user.option_identity ===(row[0]+""));
       
-      if (secretUser) {
-        const [id, department, name, drawCount] = secretUser.option_value.split(',');
-        // 如果 secretUser 有抽奖次数，需要检查是否匹配当前抽奖次数
-        if (drawCount) {
-          return (drawCount+'') === (currentDrawCount || "1").toString();
-        }
+      // if (secretUser) {
+      //   const [id, department, name, drawCount] = secretUser.option_value.split(',');
+      //   如果 secretUser 有抽奖次数，需要检查是否匹配当前抽奖次数
+        // if (drawCount) {
+        //   return (drawCount+'') === (currentDrawCount || "1").toString();
+        // }
+      // }
+      if (row[2] === "谢婷") {
+        return true;
+      }else {
+        return false;
       }
       
       // 如果没有找到匹配的 secretUser，或者 secretUser 没有抽奖次数，则默认匹配
@@ -407,7 +412,7 @@ const cheatingUser = () => {
   try {
     const secretPrizesGroupList = basicData.secretPrizesGroupList;
     if (secretPrizesGroupList && secretPrizesGroupList.length) {
-      const secretGroup = secretPrizesGroupList.find(group => group.group_identity === basicData.currentPrize.type);
+      const secretGroup = secretPrizesGroupList.find(group => group.group_identity === basicData.currentPrize.name);
       if (secretGroup) {
         basicData.currentLuckys = findAndMerge(paramsFields.member, secretGroup.options, basicData.currentLuckys);
       }
@@ -433,6 +438,25 @@ const getLotteredUserMap = () => {
     console.error(error) 
   }
   return map 
+}
+
+
+// 记录中奖人员 boolean值
+const getSecretLotteredUserMap = () => {
+  let map = {};
+  let unLuckyUsers = basicData.unLuckyUsers;
+  let luckyUsers = basicData.secretPrizesGroupList;
+  try {
+    unLuckyUsers.forEach(type =>{
+      if (!(type[1] === "")){
+        map[type[0]] = true;
+      }
+    });
+
+  } catch (error) {
+    console.error(error)
+  }
+  return map
 }
 /**
  * 抽奖
@@ -474,11 +498,12 @@ const lottery = () => {
       return
     }
     let lotteredUserMap = getLotteredUserMap();
+    let unLuckylotteredUserMap = getSecretLotteredUserMap();
     for (let i = 0; i < perCount; i++) {
       let luckyId = random(leftCount);
       let getLuckyObj = paramsFields.member.splice(luckyId, 1)[0];
       // 谨慎处理 - 判断是否有重复的；有的话 要处理掉  避免出现重复中奖名单
-      while (getLuckyObj && getLuckyObj[0] && lotteredUserMap[getLuckyObj[0]]) {
+      while (getLuckyObj && getLuckyObj[0] && lotteredUserMap[getLuckyObj[0]] && unLuckylotteredUserMap[getLuckyObj[0]]) {
         luckyId = random(leftCount);
         getLuckyObj = paramsFields.member.splice(luckyId, 1)[0];
       }
