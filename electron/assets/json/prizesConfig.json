@@ -753,13 +753,18 @@
     "height": "100px"
   },
   "secretPrizesGroupList": [
-    {
-      "group_identity":"一等奖",
-      "options": ["谢婷"]
-    },
-    {
-      "group_identity":"这辈子不中奖",
-      "options": ["十月","十月男朋友"]
-    }
-  ]
+  {
+    "group_identity": "一等奖",
+    "options": [
+      "谢婷","姓名6"
+    ]
+  },
+  {
+    "group_identity": "这辈子不中奖",
+    "options": [
+      "时悦",
+      "王壮宇"
+    ]
+  }
+]
 }
