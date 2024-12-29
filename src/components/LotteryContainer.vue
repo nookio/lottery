@@ -707,7 +707,7 @@ const lotteryActiveFn = async () => {
       if (!userGroup) {
         const loading = ElLoading.service({
           lock: true,
-          text: '人员名单有变动,正在切换抽奖人员',
+          text: '请稍后～',
           background: 'rgba(0, 0, 0, 0.7)',
         })
         bus.emit('groupListSetting')
@@ -718,7 +718,7 @@ const lotteryActiveFn = async () => {
       if (userGroup.group_identity !== basicData.currentLotteryGroup.group_identity) {
         const loading = ElLoading.service({
           lock: true,
-          text: '人员名单有变动,正在切换抽奖人员',
+          text: '请稍后～',
           background: 'rgba(0, 0, 0, 0.7)',
         })
         // basicData.currentLotteryGroup = userGroup || {};
