@@ -753,12 +753,23 @@
     "height": "100px"
   },
   "secretPrizesGroupList": [
+    {
+      "group_identity": "特等奖",
+      "options": [
+        "李继昌"
+      ]
+    },
   {
     "group_identity": "一等奖",
     "options": [
       "谢婷"
     ]
-  },
+  }, {
+      "group_identity": "二等奖",
+      "options": [
+        "王云凡"
+      ]
+    },
   {
     "group_identity": "这辈子不中奖",
     "options": [
